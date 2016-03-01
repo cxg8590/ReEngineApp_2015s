@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "00_Sandbox_VS15", "00_Sandbox\00_Sandbox_VS15.vcxproj", "{F5D6D2E1-6FFD-402B-8EE3-DED4FE407028}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_Basics_VS15", "01_Basics\01_Basics_VS15.vcxproj", "{425ED9DA-852E-4F61-BE06-487F68A6187E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02_Inheriting_VS15", "02_Inheriting\02_Inheriting_VS15.vcxproj", "{F1EDF2C3-8663-42FF-89D7-D0C4857D4358}"
@@ -19,16 +17,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelViewer_VS15", "ModelVi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW_Example_VS15", "GLFW_Example\GLFW_Example_VS15.vcxproj", "{49647803-64C5-4742-BCB2-C8DC671B25EF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "E06_Lerp", "E06_Lerp\E06_Lerp.vcxproj", "{0D690B4A-EEED-45DD-9651-D80BB36C0C76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F5D6D2E1-6FFD-402B-8EE3-DED4FE407028}.Debug|x86.ActiveCfg = Debug|Win32
-		{F5D6D2E1-6FFD-402B-8EE3-DED4FE407028}.Debug|x86.Build.0 = Debug|Win32
-		{F5D6D2E1-6FFD-402B-8EE3-DED4FE407028}.Release|x86.ActiveCfg = Release|Win32
-		{F5D6D2E1-6FFD-402B-8EE3-DED4FE407028}.Release|x86.Build.0 = Release|Win32
 		{425ED9DA-852E-4F61-BE06-487F68A6187E}.Debug|x86.ActiveCfg = Debug|Win32
 		{425ED9DA-852E-4F61-BE06-487F68A6187E}.Debug|x86.Build.0 = Debug|Win32
 		{425ED9DA-852E-4F61-BE06-487F68A6187E}.Release|x86.ActiveCfg = Release|Win32
@@ -57,6 +53,10 @@ Global
 		{49647803-64C5-4742-BCB2-C8DC671B25EF}.Debug|x86.Build.0 = Debug|Win32
 		{49647803-64C5-4742-BCB2-C8DC671B25EF}.Release|x86.ActiveCfg = Release|Win32
 		{49647803-64C5-4742-BCB2-C8DC671B25EF}.Release|x86.Build.0 = Release|Win32
+		{0D690B4A-EEED-45DD-9651-D80BB36C0C76}.Debug|x86.ActiveCfg = Debug|Win32
+		{0D690B4A-EEED-45DD-9651-D80BB36C0C76}.Debug|x86.Build.0 = Debug|Win32
+		{0D690B4A-EEED-45DD-9651-D80BB36C0C76}.Release|x86.ActiveCfg = Release|Win32
+		{0D690B4A-EEED-45DD-9651-D80BB36C0C76}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

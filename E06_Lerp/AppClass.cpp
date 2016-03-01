@@ -14,6 +14,15 @@ void AppClass::InitVariables(void)
 	m_selection = std::pair<int, int>(-1, -1);
 	//Set the camera at a position other than the default
 	m_pCameraMngr->SetPositionTargetAndView(vector3(0.0f, 2.5f, 12.0f), vector3(0.0f, 2.5f, 11.0f), REAXISY);
+	m_pCameraMngr->SetPosition(vector3(0.0f, 0.0f, 35.0f));
+
+	//m_nObjects initialization
+	srand(time(NULL));
+	m_nObjects = rand() % 23 + 5;
+
+	//start and end vectors
+	vector3 start = vector3(-m_nObjects, 0.0f, 0.0f);
+	vector3 end = vector3(m_nObjects, 0.0f, 0.0f);
 
 	m_pLightMngr->SetColor(REWHITE, 0);
 	m_pLightMngr->SetIntensity(0.1f, 0);
@@ -21,9 +30,12 @@ void AppClass::InitVariables(void)
 	m_pLightMngr->SetIntensity(0.5f, 1);
 	m_pLightMngr->SetPosition(vector3(0.0f, 1.0f,-1.0f), 1);
 
+	//m_pSphere = PrimitiveClass(Sphere)
+	//m_pMatrix = new 
+
 	//Load a model onto the Mesh manager
 	//m_pMeshMngr->LoadModel("tests\\Cubev.fbx", "Unikitty");
-	int nCubes = 10;
+	/*int nCubes = 10;
 	vector3 v3Start(-nCubes/2.0f, 0.0f, -nCubes / 2.0f);
 	m_pMeshMngr->LoadModel("Minecraft\\Cube.bto", "Cube");
 	m_pMeshMngr->SetShaderProgramByName("ElCubo", "Phong");
@@ -36,7 +48,7 @@ void AppClass::InitVariables(void)
 			m_pMeshMngr->SetShaderProgramByName(sName, "Phong");
 		}
 		v3Start += vector3(1.0f, 0.0f, 1.0f);
-	}
+	}*/
 }
 
 void AppClass::Update(void)
