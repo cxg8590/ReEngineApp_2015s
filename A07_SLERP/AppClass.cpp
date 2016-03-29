@@ -20,6 +20,11 @@ void AppClass::InitVariables(void)
 	m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
 
+	//set up sizes
+	m_m4Sun = IDENTITY_M4 * glm::scale(vector3(5.936, 5.936, 5.936));
+	m_m4Earth = IDENTITY_M4 * glm::scale(vector3(0.524, 0.524, 0.524));
+	m_m4Moon = glm::scale(vector3(0.27, 0.27, 0.27));
+
 	//Setting the days duration
 	m_fDay = 1.0f;
 }
@@ -36,21 +41,55 @@ void AppClass::Update(void)
 	if (m_bFPC == true)
 		CameraRotation();
 
+
 	//Getting the time between calls
 	double fCallTime = m_pSystem->LapClock();
 	//Counting the cumulative time
 	static double fRunTime = 0.0f;
 	fRunTime += fCallTime;
 
+	//set distances
+	matrix4 distanceEarth = glm::translate(11.0f, 0.0f, 0.0f);
+	matrix4 distanceMoon = glm::translate(2.0f, 0.0f, 0.0f);
+
 	//Earth Orbit
-	double fEarthHalfOrbTime = 182.5f * m_fDay; //Earths orbit around the sun lasts 365 days / half the time for 2 stops
+	float fEarthHalfOrbTime = 182.5f * m_fDay; //Earths orbit around the sun lasts 365 days / half the time for 2 stops
 	float fEarthHalfRevTime = 0.5f * m_fDay; // Move for Half a day
 	float fMoonHalfOrbTime = 14.0f * m_fDay; //Moon's orbit is 28 earth days, so half the time for half a route
 
+	float fPercent = MapValue(static_cast<float>(fRunTime), 0.0f, 1.0f, 0.0f, 1.0f);
+
+	//Earth orbit movement
+	glm::quat earthOrbQuat;
+	glm::quat earthOrbQuat1 = glm::quat(vector3(0.0f, 0.0f, 0.0f));
+	glm::quat earthOrbQuat2 = glm::angleAxis(90.0f, vector3(0.0f, 1.0f, 0.0f));
+	float earthOrbPercent = MapValue(static_cast<float>(fRunTime), 0.0f, fEarthHalfOrbTime, 0.0f, 1.0f);
+	earthOrbQuat = glm::mix(earthOrbQuat1, earthOrbQuat2, earthOrbPercent *2);
+	m_m4Earth = glm::mat4_cast(earthOrbQuat);
+	m_m4Earth *= glm::translate(vector3(11.0, 0.0, 0.0));
+
+	glm::quat moonOrbQuat;
+	glm::quat moonOrbQuat1 = glm::quat(vector3(0.0f, 0.0f, 0.0f));
+	glm::quat moonOrbQuat2 = glm::angleAxis(90.0f, vector3(0.0f, 1.0f, 0.0f));
+	float moonOrbPercent = MapValue(static_cast<float>(fRunTime), 0.0f, fMoonHalfOrbTime, 0.0f, 1.0f);
+	moonOrbQuat = glm::mix(moonOrbQuat1, moonOrbQuat2, moonOrbPercent * 2);
+	m_m4Moon = m_m4Earth;
+	m_m4Moon *= glm::mat4_cast(moonOrbQuat);
+	m_m4Moon *= glm::translate(vector3(2.0, 0.0, 0.0));
+	m_m4Moon *= glm::scale(vector3(0.27, 0.27, 0.27));
+
+	glm::quat earthRotQuat;
+	glm::quat earthRotQuat1 = glm::quat(vector3(0.0f, 0.0f, 0.0f));
+	glm::quat earthRotQuat2 = glm::angleAxis(90.0f, vector3(0.0f,1.0f,0.0f));
+	float earthRotPercent = MapValue(static_cast<float>(fRunTime), 0.0f, fEarthHalfRevTime, 0.0f, 1.0f);
+	earthRotQuat = glm::mix(earthRotQuat1, earthRotQuat2, earthRotPercent * 2);
+	m_m4Earth *= glm::mat4_cast(earthRotQuat);
+	m_m4Earth *= glm::scale(vector3(0.524, 0.524, 0.524));
+
 	//Setting the matrices
-	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "Sun");
-	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "Earth");
-	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "Moon");
+	m_pMeshMngr->SetModelMatrix(m_m4Sun, "Sun");
+	m_pMeshMngr->SetModelMatrix(m_m4Earth, "Earth");
+	m_pMeshMngr->SetModelMatrix(m_m4Moon, "Moon");
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
@@ -58,6 +97,17 @@ void AppClass::Update(void)
 	static int nEarthOrbits = 0;
 	static int nEarthRevolutions = 0;
 	static int nMoonOrbits = 0;
+	static int curEarthRevolutions = -1;
+
+	nEarthRevolutions = fRunTime;
+	if (nEarthRevolutions % 365 == 0 && curEarthRevolutions != nEarthRevolutions) {
+		nEarthOrbits++;
+		curEarthRevolutions = nEarthRevolutions;
+	}
+	if (nEarthRevolutions % 28 == 0 && curEarthRevolutions != nEarthRevolutions) {
+		nMoonOrbits++;
+		curEarthRevolutions = nEarthRevolutions;
+	}
 
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
