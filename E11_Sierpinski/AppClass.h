@@ -33,6 +33,9 @@ public:
 	float* m_fMatrixArray = nullptr;
 	int m_nObjects = 200;
 
+	vector3 points[3];
+	void MakeTriangle(int level, vector3 top, vector3 left, vector3 right);
+
 	/* Constructor */
 	AppClass(HINSTANCE hInstance, LPWSTR lpCmdLine, int nCmdShow) : super(hInstance, lpCmdLine, nCmdShow) {}
 
