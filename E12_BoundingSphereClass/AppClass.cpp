@@ -189,7 +189,6 @@ void AppClass::Update(void)
 
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
-<<<<<<< HEAD
 	bAreColliding = false;
 
 	vector3 v3Center1G = vector3(m_m4Steve * vector4(m_v3Center1, 1.0f));
@@ -198,9 +197,6 @@ void AppClass::Update(void)
 	float fDistanceCenters = glm::distance(v3Center1G, v3Center2G);
 
 	if(fDistanceCenters < m_fRadius1)
-=======
-	
->>>>>>> df99e0c731ef611945a90c5724b81982cc0a7ccc
 
 	//Collision check goes here
 	vector3 v3Temp = vector3(m_m4Steve * vector4( m_v3Center1, 1.0f));
@@ -264,14 +260,13 @@ void AppClass::Display(void)
 		m_pMeshMngr->AddGridToQueue(1.0f, REAXIS::XY, REBLUE * 0.75f); //renders the XY grid with a 100% scale
 		break;
 	}
-<<<<<<< HEAD
 
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 	matrix4 m4Model = m_pMeshMngr->GetModelMatrix("Steve");
 	m4Model = m4Model * glm::translate(v3Center);
 	
-esr s 6	pSphere1->Render(m4Projection, m4View, m4Model);
+	pSphere1->Render(m4Projection, m4View, m4Model);
 
 	m4Model = m_pMeshMngr->GetModelMatrix("Creeper");
 	m4Model = m4Model * glm::translate(v3Center2);
@@ -295,10 +290,7 @@ esr s 6	pSphere1->Render(m4Projection, m4View, m4Model);
 		glm::scale(vector3(m_fRadius2 * 2.0f));
 	//m_pSphere2->Render(m4Projection, m4View, m4Model);
 	m_pMeshMngr->AddSphereToQueue(m4Model, RERED, WIRE);
-=======
-	
-	
->>>>>>> df99e0c731ef611945a90c5724b81982cc0a7ccc
+
 
 	m_pMeshMngr->Render(); //renders the render list
 

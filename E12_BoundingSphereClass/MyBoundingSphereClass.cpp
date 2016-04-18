@@ -25,6 +25,13 @@ void MyBoundingSphereClass::Release(void)
 //The big 3
 MyBoundingSphereClass::MyBoundingSphereClass(std::vector<vector3> a_lVectorList)
 {
+	uint nVertexCount = a_lVectorList.size();
+
+	if (nVertexCount == 0) {
+
+	}
+
+
 }
 MyBoundingSphereClass::MyBoundingSphereClass(MyBoundingSphereClass const& other)
 {
