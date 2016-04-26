@@ -12,6 +12,13 @@ using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
 class AppClass : public ReEngAppClass
 {
+<<<<<<< HEAD:E06_Lerp/AppClass.h
+	vector3 m_v3Position = vector3(0.0f);
+	int m_nObjects;
+	PrimitiveClass* m_pSphere = nullptr;
+	matrix4* m_pMatrix = nullptr;
+=======
+>>>>>>> 1ff633c8d38024521334e915ae750d4f7d39581f:00_Sandbox/AppClass.h
 public:
 	typedef ReEngAppClass super;
 

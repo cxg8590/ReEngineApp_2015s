@@ -14,6 +14,37 @@ void AppClass::InitVariables(void)
 	m_pMeshMngr->LoadModel("Sorted\\WallEye.bto", "WallEye");
 
 	fDuration = 1.0f;
+
+	numPoints = 11;
+	currentPoint = 0;
+	nextPoint = 1;
+
+	//the movement point array
+	movePoints = new vector3[numPoints];
+	//the array of spheres
+	spheres = new PrimitiveClass[numPoints];
+	//the locations of the movement points
+	pointLocations = new matrix4[numPoints];
+
+	#pragma region Movement Points
+		//Makes the movement points and adds them to the array
+		movePoints[0] = vector3(-4.0f, -2.0f, 5.0f);
+		movePoints[1] = vector3(1.0f, -2.0f, 5.0f);
+		movePoints[2] = vector3(-3.0f, -1.0f, 3.0f);
+		movePoints[3] = vector3(2.0f, -1.0f, 3.0f);
+		movePoints[4] = vector3(-2.0f, 0.0f, 0.0f);
+		movePoints[5] = vector3(3.0f, 0.0f, 0.0f);
+		movePoints[6] = vector3(-1.0f, 1.0f, -3.0f);
+		movePoints[7] = vector3(4.0f, 1.0f, -3.0f);
+		movePoints[8] = vector3(0.0f, 2.0f, -5.0f);
+		movePoints[9] = vector3(5.0f, 2.0f, -5.0f);
+		movePoints[10] = vector3(1.0f, 3.0f, -5.0f);
+	#pragma endregion
+
+	for (uint i = 0; i < numPoints; i++) {
+		spheres[i].GenerateSphere(0.1f, 5, RERED);		//generate a sphere for each point
+		pointLocations[i] = glm::translate(movePoints[i]);	//moves the sphere to its corresponding movement point
+	}
 }
 
 void AppClass::Update(void)
@@ -24,7 +55,7 @@ void AppClass::Update(void)
 
 	//Update the mesh manager's time without updating for collision detection
 	m_pMeshMngr->Update();
-#pragma region
+#pragma endregion
 
 #pragma region Does not need changes but feel free to change anything here
 	//Lets us know how much time has passed since the last call
@@ -36,7 +67,27 @@ void AppClass::Update(void)
 #pragma endregion
 
 #pragma region Your Code goes here
-	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "WallEye");
+
+	float fPercent = MapValue(static_cast<float>(fRunTime), 0.0f, fDuration, 0.0f, 1.0f);	//makes a percentage based on how close fRuntime is getting to fDuration
+	vector3 move = glm::lerp(movePoints[currentPoint], movePoints[nextPoint], fPercent);	//uses the above percentage to make a vector3 that is that percentage between currentPoint and nextPoint
+	moving = glm::translate(move);	//takes the above vector3 and makes a mat4 translation
+	m_pMeshMngr->SetModelMatrix(moving, "WallEye");		//applies that mat4 to the walleye
+
+	//if it gets to the movement point
+	if (fRunTime > fDuration) {
+		//makes it so that the new currentPoint is the one we just got to
+		currentPoint = nextPoint;
+		//then make nextPoint the point after that
+		nextPoint++;
+		//sets runtime to zero for the next cycle
+		fRunTime = 0;
+
+		//if we are on the last point, set it so that the next movement point we go to is the first one
+		if (currentPoint > 9) {
+			nextPoint = 0;
+		}
+	}
+
 #pragma endregion
 
 #pragma region Does not need changes but feel free to change anything here
@@ -74,6 +125,13 @@ void AppClass::Display(void)
 		m_pMeshMngr->AddGridToQueue(1.0f, REAXIS::XY, REBLUE * 0.75f); //renders the XY grid with a 100% scale
 		break;
 	}
+
+	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
+	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
+
+	for (uint i = 0; i < numPoints; i++) {
+		spheres[i].Render(m4Projection, m4View, pointLocations[i]);
+	}
 	
 	m_pMeshMngr->Render(); //renders the render list
 
@@ -82,5 +140,17 @@ void AppClass::Display(void)
 
 void AppClass::Release(void)
 {
+	if (movePoints != nullptr) {
+		delete[] movePoints;
+		movePoints = nullptr;
+	}
+	if (spheres != nullptr) {
+		delete[] spheres;
+		spheres = nullptr;
+	}
+	if (pointLocations != nullptr) {
+		delete[] pointLocations;
+		pointLocations = nullptr;
+	}
 	super::Release(); //release the memory of the inherited fields
 }
