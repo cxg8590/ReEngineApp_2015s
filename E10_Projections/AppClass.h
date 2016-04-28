@@ -19,8 +19,11 @@ class AppClass : public ReEngAppClass
 
 	matrix4 m_m4Projection;
 	matrix4 m_m4View;
+<<<<<<< HEAD
 
 	Camera* camera = Camera::GetInstance();
+=======
+>>>>>>> 8f580f7f9fede253430f22e409d3eac4ead431c5
 public:
 	typedef ReEngAppClass super;
 
@@ -119,6 +122,7 @@ public:
 	OUTPUT: ---
 	*/
 	virtual void ReadConfig(void) final {}
+
 	/*
 	USAGE: Writes the configuration of the application to a file
 	ARGUMENTS: ---
